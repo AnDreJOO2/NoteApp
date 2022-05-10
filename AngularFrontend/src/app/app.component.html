@@ -1,0 +1,181 @@
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="page-content container note-has-grid">
+    <nav>
+        <ul class="nav nav-pills p-3 bg-white mb-3 rounded-pill align-items-center">
+
+            <li class="nav-item ml-auto">
+                <a class="nav-link" (click)="openModalAdd('add')">Dodaj notatkę</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container" id="main-container">
+        <div class="tab-content bg-transparent">
+            <div id="note-full-container" class="note-has-grid row">
+                <div *ngFor="let note of notes" class="col-md-4 single-note-item all-category">
+                    <div class="card card-body">
+                        <span class="side-stick"></span>
+                        <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="title">{{note.title}}</h5>
+                        <div >
+                            <p class="note-date font-12 text-muted">{{note.createdDate}} {{note.createdTime}}</p>
+                        </div>
+                        <div class="note-content">
+                            <p class="note-inner-content text-muted" data-notecontent="textField">{{note.textField}}</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="mr-1"><i class="fa fa-solid fa-pencil" (click)="openModalUpdate(note,'edit')"></i></span>
+                            <span class="mr-1"><i class="fa fa-trash remove-note" (click)="openModalDelete(note,'delete')"></i></span>
+                            <div class="ml-auto">
+                                <div class="category-selector btn-group">
+                                    <a class="nav-link dropdown-toggle category-dropdown label-group p-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                                        <div class="category">
+                                            <div class="category-business"></div>
+                                            <div class="category-social"></div>
+                                            <div class="category-important"></div>
+                                            <span class="more-options text-dark"><i class="icon-options-vertical"></i></span>
+                                        </div>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right category-menu">
+                                        <a class="note-business badge-group-item badge-business dropdown-item position-relative category-business text-success" href="javascript:void(0);">
+                                            <i class="mdi mdi-checkbox-blank-circle-outline mr-1"></i>Business
+                                        </a>
+                                        <a class="note-social badge-group-item badge-social dropdown-item position-relative category-social text-info" href="javascript:void(0);">
+                                            <i class="mdi mdi-checkbox-blank-circle-outline mr-1"></i> Social
+                                        </a>
+                                        <a class="note-important badge-group-item badge-important dropdown-item position-relative category-important text-danger" href="javascript:void(0);">
+                                            <i class="mdi mdi-checkbox-blank-circle-outline mr-1"></i> Important
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Add note -->
+    <div class="modal fade" id="addnotesmodal" tabindex="-1" role="dialog" aria-labelledby="addnotesmodalTitle" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title text-white">Dodaj notatkę</h5>
+                    <button type="button" class="close btn-danger text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form #addForm="ngForm" id="addnotesmodalform">
+                <div class="modal-body">
+                    <div class="notes-box">
+                        <div class="notes-content">
+
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <div class="note-title">
+                                            <label>Tytuł</label>
+                                            <input type="text" ngModel id="title-add" name="title" class="form-control" minlength="1" maxlength="300" placeholder="Wpisz tytuł..." />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="note-description">
+                                            <label>Pole tekstowe</label>
+                                            <textarea ngModel id="textField-add" name="textField" class="form-control" minlength="1" maxlength="3000" placeholder="Wpisz opis..." rows="20"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-n-save-add" class="float-left btn btn-success" style="display: none;">Zapisz</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                    <button id="btn-n-add-add" class="btn btn-primary" (click)="onAddNote(addForm)" data-dismiss="modal">Dodaj</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Update note -->
+    <div class="modal fade" id="updatenotesmodal" tabindex="-1" role="dialog" aria-labelledby="updatenotesmodalTitle" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title text-white">Edycja notatki</h5>
+                    <button type="button" class="close btn-danger text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form  #editForm="ngForm" id="updatenotesmodalform">
+                <div class="modal-body">
+                    <div class="notes-box">
+                        <div class="notes-content">
+
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <div class="note-title">
+                                            <label>Tytuł</label>
+                                            <input type="text" id="title" name="title" ngModel="{{editNote?.title}}" class="form-control" minlength="1" maxlength="300" placeholder="Wpisz tytuł..." />
+                                            <input type="hidden" id="id" name="id" ngModel="{{editNote?.id}}" class="form-control"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="note-description">
+                                            <label>Pole tekstowe</label>
+                                            <textarea id="textField" name="textField" ngModel="{{editNote?.textField}}" class="form-control" minlength="1" maxlength="3000" placeholder="Wpisz opis..." rows="20"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-n-save-update" class="float-left btn btn-success" style="display: none;">Zapisz</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                    <button (click)="onUpdateNote(editForm.value)" id="btn-n-add" class="btn btn-success" data-dismiss="modal">Potwierdź</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Delete note -->
+    <div class="modal fade" id="deletenotesmodal" tabindex="-1" role="dialog" aria-labelledby="deletenotesmodalTitle" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title text-white">Usuwanie notatki</h5>
+                    <button type="button" class="close btn-danger text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="notes-box">
+                        <div class="notes-content">
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <div class="note-title">
+                                          <p>Jesteś pewien że chcesz usunąć tę notatkę? <b>{{deleteNote?.title}}</b></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-n-save" class="float-left btn btn-success" style="display: none;">Potwierdź</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                    <button id="btn-n-delete" (click)="onDeleteNote(deleteNote.id)"  class="btn btn-danger" data-dismiss="modal">Potwierdź</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
