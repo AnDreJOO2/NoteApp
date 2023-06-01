@@ -1,8 +1,11 @@
 package com.example.springbackend.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "notes")
@@ -80,7 +83,26 @@ public class Note {
         this.textField = textField;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Note note)) return false;
+        return Objects.equals(id, note.id) && Objects.equals(title, note.title) && Objects.equals(textField, note.textField) && Objects.equals(createdDate, note.createdDate) && Objects.equals(createdTime, note.createdTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, textField, createdDate, createdTime);
+    }
+
     public Note() {
     }
 
+    public Note(Long id, String title, String textField, Date createdDate, Date createdTime) {
+        this.id = id;
+        this.title = title;
+        this.textField = textField;
+        this.createdDate = createdDate;
+        this.createdTime = createdTime;
+    }
 }

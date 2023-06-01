@@ -5,9 +5,6 @@ import com.example.springbackend.model.Note;
 import com.example.springbackend.repository.NoteRepository;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
