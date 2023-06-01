@@ -9,6 +9,8 @@ The application for storing your personal notes in the database.
 - Spring Boot / Java
 - Maven
 - MySQL
+- AssertJ
+- Mockito
 
 ### Frontend
 
@@ -38,6 +40,15 @@ Run http://localhost:4200/ in your browser.
 ![ Alt text](readme-elements/EditNote.gif)
 ![ Alt text](readme-elements/DeleteNote.gif)
 
-Project was made for learning purposes.
+## Tests
+
+Application has been tested.
+Below you can see the coverage of these tests.
+
+![ Alt text](readme-elements/tests.png)
+
+# Summary
+
+Project was made to learning purposes.
 
 Use freely.
